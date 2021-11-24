@@ -12,7 +12,13 @@ namespace SuperMarket
             {
                 return 0;
             }
-            return -1;
+            return product switch
+            {
+                "Product1" => 0.65M,
+                "Product2" => 1.99M,
+                "Product3" => 3,
+                _ => -1,
+            };
         }
 
     }
