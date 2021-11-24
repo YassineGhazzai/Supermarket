@@ -13,5 +13,10 @@ namespace SuperMarket
         {
             productPricing = new ProductPricing();
         }
+        [Fact]
+        public void NoProduct_Pricing()
+        {
+            Assert.Equal(0, productPricing.Pricing(""));
+        }
     }
 }

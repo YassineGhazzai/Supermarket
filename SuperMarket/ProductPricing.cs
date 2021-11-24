@@ -8,7 +8,11 @@ namespace SuperMarket
     {
         public decimal Pricing(string product)
         {
-                return -1;
+            if (String.IsNullOrEmpty(product))
+            {
+                return 0;
+            }
+            return -1;
         }
 
     }
