@@ -19,8 +19,8 @@ namespace SuperMarket
             Assert.Equal(0, productPricing.Pricing(""));
         }
         [Theory]
-        [InlineData("Product1", 0.65)]
-        [InlineData("Product2", 1.99)]
+        [InlineData("Product1,Product4,Product2", 12.64)]
+        [InlineData("Product2,Product1", 2.64)]
         [InlineData("Product3", 3)]
         public void OneProduct_Pricing(string product, decimal expected)
         {

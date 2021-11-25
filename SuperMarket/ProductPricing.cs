@@ -12,17 +12,32 @@ namespace SuperMarket
             catalog = new Dictionary<string, decimal>() {
                 { "Product1", 0.65M },
                 { "Product2", 1.99M },
-                { "Product3", 3 }
+                { "Product3", 3 },
+                { "Product4", 10 }
+
             };
         }
         public decimal Pricing(string product)
         {
-            decimal price = -1;
+            decimal total = 0;
             if (String.IsNullOrEmpty(product))
             {
-                return 0;
+                return total;
             }
-            catalog.TryGetValue(product, out price);
+            /*split the input products into array of string to calculate the price 
+            expecting the string product input to be separate the multiple products with a ","
+            */
+            var items = product.Split(",");
+            foreach ( string item in items)
+            {
+                total = total + PriceFor(item);
+            }
+            return total;
+        }
+        private decimal PriceFor(string item)
+        {
+            decimal price = 0;
+            catalog.TryGetValue(item, out price);
             return price;
         }
 
