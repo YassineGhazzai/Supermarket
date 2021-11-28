@@ -11,7 +11,13 @@ namespace SuperMarket
 
         public ProductPricingTest()
         {
-            productPricing = new ProductPricing();
+            IEnumerable<Product> products = new[]
+               {
+                new Product{id = "Product1", price =  0.65M},
+                new Product{id = "Product2", price = 1.99M },
+                new Product{id = "Product3", price = 3}
+                };
+            productPricing = new ProductPricing(products);
         }
         [Fact]
         public void NoProduct_Pricing()

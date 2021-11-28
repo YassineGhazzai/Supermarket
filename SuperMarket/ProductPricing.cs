@@ -6,15 +6,12 @@ namespace SuperMarket
 {
     public class ProductPricing
     {
-        private Dictionary<string, decimal> catalog;
+        private readonly IEnumerable<IProduct> catalog;
         private Dictionary<string, decimal[]> discounts;
-        public ProductPricing()
+        public ProductPricing(IEnumerable<IProduct> products)
         {
-            catalog = new Dictionary<string, decimal>() {
-                { "Product1", 0.65M },
-                { "Product2", 1.99M },
-                { "Product3", 3 }
-            };
+            catalog =products;
+
             /* Our offers 3 of product1 cost 1.5 instead of 1.95 = discount of 0.45 
                   2 of product3 cost 5 instead of 6 = discount of 1*/
             discounts = new Dictionary<string, decimal[]>() {
@@ -41,9 +38,7 @@ namespace SuperMarket
         }
         private decimal PriceFor(string item)
         {
-            decimal price = 0;
-            catalog.TryGetValue(item, out price);
-            return price;
+            return catalog.Single(p => p.id == item).price;
         }
         private decimal CalculateDiscount(string product, decimal[] discount, string[] products)
         {
