@@ -17,7 +17,15 @@ namespace SuperMarket
                 new Product{id = "Product2", price = 1.99M },
                 new Product{id = "Product3", price = 3}
                 };
-            productPricing = new ProductPricing(products);
+            /* Our offers 3 of product1 cost 1.5 instead of 1.95 = discount of 0.45 
+                  2 of product3 cost 5 instead of 6 = discount of 1*/
+            IEnumerable<Discount> discounts = new[]
+            {
+                    new Discount{id ="Product1", quantity = 3, value = 0.45M},
+                    new Discount{id = "Product3", quantity = 2, value = 1}
+            };
+
+        productPricing = new ProductPricing(products, discounts);
         }
         [Fact]
         public void NoProduct_Pricing()

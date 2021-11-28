@@ -7,17 +7,12 @@ namespace SuperMarket
     public class ProductPricing
     {
         private readonly IEnumerable<IProduct> catalog;
-        private Dictionary<string, decimal[]> discounts;
-        public ProductPricing(IEnumerable<IProduct> products)
+        private readonly IEnumerable<IDiscount> discounts;
+        public ProductPricing(IEnumerable<IProduct> products,IEnumerable<IDiscount> discounts)
         {
             catalog =products;
-
-            /* Our offers 3 of product1 cost 1.5 instead of 1.95 = discount of 0.45 
-                  2 of product3 cost 5 instead of 6 = discount of 1*/
-            discounts = new Dictionary<string, decimal[]>() {
-                { "Product1", new decimal[] { 3, 0.45M } },
-                { "Product3", new decimal[] { 2, 1 } }
-            };
+            this.catalog = products;
+            this.discounts = discounts;
         }
         public decimal Pricing(string product)
         {
@@ -33,17 +28,17 @@ namespace SuperMarket
             var products = product.Split(",");
             //code optimisation through using Linq instead of a foreach
             total = products.Sum(x => PriceFor(x));
-            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount.Key, discount.Value, products));
-            return total- totalDiscount;
+            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, products));
+            return total - totalDiscount;
         }
         private decimal PriceFor(string item)
         {
             return catalog.Single(p => p.id == item).price;
         }
-        private decimal CalculateDiscount(string product, decimal[] discount, string[] products)
+        private decimal CalculateDiscount(IDiscount discount, string[] products)
         {
-            int itemCount = products.Count(item => item == product);
-            return itemCount == discount[0] || itemCount % discount[0]== 0 ? (itemCount / discount[0]) * discount[1] : 0;        
+            int itemCount = products.Count(item => item == discount.id);
+            return itemCount == discount.quantity || itemCount % discount.quantity == 0 ? (itemCount / discount.quantity) * discount.value : 0;        
         }
     }
 }
