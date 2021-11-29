@@ -30,7 +30,7 @@ namespace SuperMarket
         [Fact]
         public void NoProduct_Pricing()
         {
-            Assert.Equal(0, productPricing.Pricing(""));
+            Assert.Equal(0, productPricing.Pricing("").Total());
         }
         [Theory]
         [InlineData("Product1,Product3,Product2", 5.64)]
@@ -39,7 +39,7 @@ namespace SuperMarket
         [InlineData("Product2", 1.99)]
         public void MultipleProduct_Pricing_NoDicount(string product, decimal expected)
         {
-            Assert.Equal(expected, productPricing.Pricing(product));
+            Assert.Equal(expected, productPricing.Pricing(product).Total());
         }
         [Theory]
         [InlineData("Product1,Product1,Product1", 1.5)]
@@ -50,7 +50,7 @@ namespace SuperMarket
         [InlineData("Product3,Product3", 5)]
         public void Pricing_discounted_combinations_Products(string scan, decimal expected)
         {
-            Assert.Equal(expected, productPricing.Pricing(scan));
+            Assert.Equal(expected, productPricing.Pricing(scan).Total());
         }
     }
 }

@@ -8,29 +8,34 @@ namespace SuperMarket
     {
         private readonly IEnumerable<IProduct> catalog;
         private readonly IEnumerable<IDiscount> discounts;
+        public string[] scannedProducts { get; private set; }
+
         public ProductPricing(IEnumerable<IProduct> products,IEnumerable<IDiscount> discounts)
         {
             catalog =products;
             this.catalog = products;
             this.discounts = discounts;
+            this.scannedProducts = new string[] { };
         }
-        public decimal Pricing(string product)
+        public ProductPricing Pricing(string product)
+        {
+            if (!String.IsNullOrEmpty(product))
+            {
+                this.scannedProducts = product.Split(",");                
+            }
+            return this;
+          
+            
+        }
+        public decimal Total()
         {
             decimal total = 0;
             decimal totalDiscount = 0;
-            if (String.IsNullOrEmpty(product))
-            {
-                return total;
-            }
-            /*split the input products into array of string to calculate the price 
-            expecting the string product input to be separate the multiple products with a ","
-            */
-            var products = product.Split(",");
-            //code optimisation through using Linq instead of a foreach
-            total = products.Sum(x => PriceFor(x));
-            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, products));
+            total = this.scannedProducts.Sum(x => PriceFor(x));
+            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, this.scannedProducts));
             return total - totalDiscount;
         }
+       
         private decimal PriceFor(string item)
         {
             return catalog.Single(p => p.id == item).price;
