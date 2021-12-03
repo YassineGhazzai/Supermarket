@@ -7,7 +7,7 @@ namespace SuperMarket
 {
     public class ProductPricingTest
     {
-        private readonly ProductPricing productPricing;
+        private IProductPricing productPricing;
 
         public ProductPricingTest()
         {

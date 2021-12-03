@@ -4,35 +4,33 @@ using System.Linq;
 
 namespace SuperMarket
 {
-    public class ProductPricing
+    public class ProductPricing : IProductPricing
     {
         private readonly IEnumerable<IProduct> catalog;
         private readonly IEnumerable<IDiscount> discounts;
-        public string[] scannedProducts { get; private set; }
+        private string[] scannedProducts;
 
         public ProductPricing(IEnumerable<IProduct> products,IEnumerable<IDiscount> discounts)
         {
             catalog =products;
             this.catalog = products;
             this.discounts = discounts;
-            this.scannedProducts = new string[] { };
+            scannedProducts = new string[] { };
         }
-        public ProductPricing Pricing(string product)
+        public IProductPricing Pricing(string product)
         {
             if (!String.IsNullOrEmpty(product))
             {
-                this.scannedProducts = product.Split(",");                
+                scannedProducts = product.Split(",");                
             }
-            return this;
-          
-            
+            return this;       
         }
         public decimal Total()
         {
             decimal total = 0;
             decimal totalDiscount = 0;
-            total = this.scannedProducts.Sum(x => PriceFor(x));
-            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, this.scannedProducts));
+            total = scannedProducts.Sum(x => PriceFor(x));
+            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, scannedProducts));
             return total - totalDiscount;
         }
        
