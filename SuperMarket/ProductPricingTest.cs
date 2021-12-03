@@ -52,5 +52,16 @@ namespace SuperMarket
         {
             Assert.Equal(expected, productPricing.Pricing(scan).Total());
         }
+        [Theory]
+        [InlineData("Product8", "")]
+        [InlineData("Product8,Product1", "Product1")]
+        [InlineData("Product1,Product1,Product1", "Product1,Product1,Product1")]
+        public void Pricing_invalid_Product_Id(string scan, string expected)
+        {
+            Assert.Equal(
+                expected,
+                String.Join(",", productPricing.Pricing(scan).ScannedProducts)
+            );
+        }
     }
 }

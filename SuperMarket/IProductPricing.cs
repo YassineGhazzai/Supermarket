@@ -8,5 +8,6 @@ namespace SuperMarket
     {
         IProductPricing Pricing(string Products);
         decimal Total();
+        string [] ScannedProducts { get; }
     } 
 }

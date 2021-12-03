@@ -9,6 +9,8 @@ namespace SuperMarket
         private readonly IEnumerable<IProduct> catalog;
         private readonly IEnumerable<IDiscount> discounts;
         private string[] scannedProducts;
+        public string[] ScannedProducts { get { return scannedProducts; } }
+
 
         public ProductPricing(IEnumerable<IProduct> products,IEnumerable<IDiscount> discounts)
         {
@@ -21,7 +23,7 @@ namespace SuperMarket
         {
             if (!String.IsNullOrEmpty(product))
             {
-                scannedProducts = product.Split(",");                
+                scannedProducts = product.Split(",").Where(scanedId => catalog.Any(product => product.id == scanedId)).ToArray();
             }
             return this;       
         }
